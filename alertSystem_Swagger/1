@@ -1,0 +1,45 @@
+import requests
+import json
+from flask import Flask, jsonify
+
+def nodestatus_get():
+    req = requests.get("http://opsitcdkr01:4243/nodes")
+    res=req.json()
+    length=len(res)
+    hostsArray=[dict() for x in range(length)]
+    hostsNArray=[dict() for x in range(1)]
+    hosts={}
+    flag=1
+    for i in range(0,length):
+            if res[i]["Status"]["State"] == "ready":
+                    hosts["channel"]=res[i]["Description"]["Hostname"]
+                    hosts["value"]="1"
+                    hostsArray[i]=hosts
+                    hosts={}
+                    flag=0  
+                        
+    if flag == 1:
+        hosts["channel"]="Node status"
+        hosts["value"]="0"
+        hostsNArray[0]=hostsi
+       # prtg={}
+       # prtg["result"]=hostsNArray
+        #prtg["text"]  
+    	return jsonify({'prtg':{"result":hostsNArray,"text": "Nodes are down please check it"}}) 
+    else:
+    	return jsonify({'prtg':{"result":hostsArray,"text": "All Nodes are up"}})
+
+def failedcontainers_get():
+    req = requests.get("http://opsitcdkr01:4243/tasks")
+    res=req.json()
+    length=len(res)
+    containers={}
+    containerList=[]
+    for i in range(0,length):
+            if res[i]["Status"]["State"] == "failed" and res[i]["Status"]["ContainerStatus"]["ExitCode"] != 137:
+                    containers[i]=res[i]["Status"]["ContainerStatus"]["ContainerID"]
+                    containerList.append(containers[i])
+    if not containerList:
+    	return jsonify({'status':'success'}) 
+    else:
+    	return jsonify({'container_Details':containerList})

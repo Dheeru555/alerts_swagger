@@ -1,0 +1,61 @@
+swagger: "2.0"
+info:
+  description: "This contains REST APIs for Docker PRTG alerts\n"
+  version: "1.0.0"
+  title: "Alerts"
+  contact:
+    email: "SaiDheeraj_Devineni@eogresources.com"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+basePath: "/alerts"
+paths:
+  /nodes:
+    get:
+      tags:
+      - "nodes"
+      summary: "Read the docker API nodes endpoint"
+      description: "Returns available nodes and their status"
+      operationId: "alerts.nodestatus_get"
+      responses:
+        200:
+          description: "Nodes status are shown"
+          schema:
+            type: "array"
+            items:
+              properties:
+                Prtg_Nodes:
+                  type: "string"
+  /services:
+    get:
+      tags:
+      - "services"
+      summary: "Read the docker API tasks and services endpoint"
+      description: "Returns status of tasks and services"
+      operationId: "alerts.servicestatus_get"
+      responses:
+        200:
+          description: "Returns available services and their status"
+          schema:
+            type: "array"
+            items:
+              properties:
+                Prtg_Services:
+                  type: "string"
+  /containers:
+    get:
+      tags:
+      - "containers"
+      summary: "Read the docker API tasks and services endpoint"
+      description: "Returns status of the containers"
+      operationId: "alerts.containerstatus_get"
+      responses:
+        200:
+          description: "Returns status of the container"
+          schema:
+            type: "array"
+            items:
+              properties:
+                Prtg_containers:
+                  type: "string"

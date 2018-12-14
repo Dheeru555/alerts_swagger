@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  prtg_alert:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    entrypoint: python app.py ${SERVER_NAME} 
+    image: ${SERVER_NAME}:5000/prtg_alert:latest
+    ports:
+      - "8050:80"
+    restart: always
